@@ -1,26 +1,15 @@
-## Quality Development starter pack
+## Shopping List Bot
 
-This repository has been created to give a python template project which includes pytest instructions.
+### Partecipanti
+@michelanicastro
+@fabriziosciolto
 
-### Install requirements
+### Descrizione
+Il progetto consiste nella creazione di un bot Telegram che aiuti a gestire una lista della spesa o degli acquisti personale
 
-Use pip or pip3 to install the dev requirements for the software testing:
-
-```bash
-pip install -r requirements_dev.txt
-```
-
-### Software Testing
-
-How to run properly the tests with the related html report:
-
-```bash
-$ pytest --cov src tests/ --cov-report=html
-```
-
-### Clean code
-Check [this article](https://testdriven.io/blog/clean-code-python/) to understand how to write "clean code" in python.
-
-### Contributing
-
-Feel free to improve this poor README with any other detail, if you do it, I'll be grateful.
+### Funzionalità
+-inserire nuovi elementi in lista
+-visualizzare la lista completa e numerata
+-spuntare dalla lista gli elementi desiderati
+-cancellare tutta la lista
+-avvertire che un prodotto è già presente in lista nel caso in cui l'utente provi ad inserirlo più di una volta
