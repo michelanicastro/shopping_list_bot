@@ -11,9 +11,9 @@ Il progetto consiste nella creazione di un bot Telegram che aiuti a gestire una 
 ### Funzionalità
 -inserire nuovi elementi in lista
 
--visualizzare la lista completa e numerata
+-visualizzare la lista completa
 
--spuntare dalla lista gli elementi desiderati
+-eliminare dalla lista gli elementi desiderati
 
 -cancellare tutta la lista
 
