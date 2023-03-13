@@ -3,35 +3,44 @@ from telegram.update import Update
 
 #taking the token
 token = open("token.txt").readline()
-updater=Updater(token, use_context=True)
+updater = Updater(token, use_context=True)
 
-my_list=list()
+shopping_lists = {}
 
 def start(update, context):
     update.message.reply_text("Ciao! Sono Shopping List Bot, il tuo assistente per la spesa\n")
 
 def help(update, context):
-    update.message.reply_text("Comandi:\n/add articolo  ->  inserisce l'articolo\n/remove articolo  ->  elimina l'articolo\n/show  ->  mostra la lista\n/delete  ->  svuota la lista\n")
+    update.message.reply_text("Comandi:\n/add articolo  ->  inserisce l'articolo\n/remove articolo  ->  elimina l'articolo\n/show  ->  mostra la lista\n/clear  ->  svuota la lista\n")
 
 def unknown(update, context):
     update.message.reply_text("Comando non valido, scrivi /help per conoscere la lista di comandi\n")
 
 def add(update, context):
+
+    chat_id = update.message.chat_id 
+    if chat_id not in shopping_lists:
+        shopping_lists[chat_id]=[]
+
     x=""
     for y in context.args:
         x+=(y+" ")
-
     if x=="":
         update.message.reply_text("Comando non valido.\nScrivi '/add nome_articolo' per aggiungere un prodotto alla lista")
         return
-    
-    if x in my_list:
+        
+    if x in shopping_lists[chat_id]:
         update.message.reply_text("Il prodotto è già in lista\n")
     else:
-        my_list.append(x)
+        shopping_lists[chat_id].append(x)
         update.message.reply_text(x+" aggiunto alla lista\n")
 
 def remove(update, context):
+
+    chat_id = update.message.chat_id 
+    if chat_id not in shopping_lists:
+        shopping_lists[chat_id]=[]
+
     x=""
     for y in context.args:
         x+=(y+" ")
@@ -40,27 +49,37 @@ def remove(update, context):
         update.message.reply_text("Comando non valido.\nScrivi '/remove nome_articolo' per eliminare un prodotto dalla lista")
         return
 
-    if x in my_list:
-        my_list.remove(x)
+    if x in shopping_lists[chat_id]:
+        shopping_lists[chat_id].remove(x)  
         update.message.reply_text(x+" rimosso dalla lista\n")
     else:
         update.message.reply_text("Il prodotto non è in lista\n")
 
-def delete(update, context):
-    my_list.clear()
+def clear(update, context):
+
+    chat_id = update.message.chat_id 
+    if chat_id not in shopping_lists:
+        shopping_lists[chat_id]=[]
+
+    shopping_lists[chat_id].clear()
     update.message.reply_text("La lista è stata svuotata\n")
 
 def show(update, context):
-    if not my_list:
+
+    chat_id = update.message.chat_id 
+    if chat_id not in shopping_lists:
+        shopping_lists[chat_id]=[]
+
+    if shopping_lists[chat_id] == []:
         update.message.reply_text("La lista è vuota\n")
     else:
-        update.message.reply_text('Lista:\n- '+'\n- '.join(my_list))
+        update.message.reply_text('Lista:\n- '+'\n- '.join(shopping_lists[chat_id]))
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(CommandHandler('help', help))
 updater.dispatcher.add_handler(CommandHandler('add', add, pass_args=True))
 updater.dispatcher.add_handler(CommandHandler('remove', remove, pass_args=True))
-updater.dispatcher.add_handler(CommandHandler('delete', delete))
+updater.dispatcher.add_handler(CommandHandler('clear', clear))
 updater.dispatcher.add_handler(CommandHandler('show', show))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown))
 updater.dispatcher.add_handler(MessageHandler(Filters.command, unknown))
