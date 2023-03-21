@@ -8,13 +8,13 @@ updater = Updater(token, use_context=True)
 shopping_lists = {}
 
 def start(update, context):
-    update.message.reply_text("Ciao! Sono Shopping List Bot, il tuo assistente per la spesa\n")
+    update.message.reply_text("Ciao! Sono Shopping List Bot, il tuo assistente per la spesa.\nScrivi /help per conoscere la lista dei comandi\n")
 
 def help(update, context):
-    update.message.reply_text("Comandi:\n/add articolo  ->  inserisce l'articolo\n/remove articolo  ->  elimina l'articolo\n/show  ->  mostra la lista\n/clear  ->  svuota la lista\n")
+    update.message.reply_text("Comandi:\n/add prodotto  ->  inserisce il prodotto\n/remove prodotto  ->  elimina il prodotto\n/show  ->  mostra la lista\n/clear  ->  svuota la lista\n")
 
 def unknown(update, context):
-    update.message.reply_text("Comando non valido, scrivi /help per conoscere la lista di comandi\n")
+    update.message.reply_text("Comando non valido, scrivi /help per conoscere la lista dei comandi\n")
 
 def add(update, context):
 
@@ -24,9 +24,9 @@ def add(update, context):
 
     x=""
     for y in context.args:
-        x+=(y+" ")
+        x+=(y.lower()+" ")
     if x=="":
-        update.message.reply_text("Comando non valido.\nScrivi '/add nome_articolo' per aggiungere un prodotto alla lista")
+        update.message.reply_text("Comando non valido.\nScrivi '/add prodotto' per aggiungere un prodotto alla lista\n")
         return
         
     if x in shopping_lists[chat_id]:
@@ -43,10 +43,10 @@ def remove(update, context):
 
     x=""
     for y in context.args:
-        x+=(y+" ")
+        x+=(y.lower()+" ")
 
     if x=="":
-        update.message.reply_text("Comando non valido.\nScrivi '/remove nome_articolo' per eliminare un prodotto dalla lista")
+        update.message.reply_text("Comando non valido.\nScrivi '/remove prodotto' per eliminare un prodotto dalla lista\n")
         return
 
     if x in shopping_lists[chat_id]:
