@@ -2,7 +2,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 from telegram.update import Update
 
 #taking the token
-token = open("token.txt").readline()
+token = '5770176466:AAE1tWjP_168BcXJz9QmnAJidX5vcUe7eEg' #open("token.txt").readline()
 updater = Updater(token, use_context=True)
 
 shopping_lists = {}
@@ -16,11 +16,14 @@ def help(update, context):
 def unknown(update, context):
     update.message.reply_text("Comando non valido, scrivi /help per conoscere la lista dei comandi\n")
 
-def add(update, context):
-
-    chat_id = update.message.chat_id 
+def new_user(chat_id):
     if chat_id not in shopping_lists:
         shopping_lists[chat_id]=[]
+
+def add(update, context):
+    
+    chat_id = update.message.chat_id 
+    new_user(chat_id)
 
     x=""
     for y in context.args:
@@ -28,7 +31,7 @@ def add(update, context):
     if x=="":
         update.message.reply_text("Comando non valido.\nScrivi '/add prodotto' per aggiungere un prodotto alla lista\n")
         return
-        
+
     if x in shopping_lists[chat_id]:
         update.message.reply_text("Il prodotto è già in lista\n")
     else:
@@ -38,8 +41,7 @@ def add(update, context):
 def remove(update, context):
 
     chat_id = update.message.chat_id 
-    if chat_id not in shopping_lists:
-        shopping_lists[chat_id]=[]
+    new_user(chat_id)
 
     x=""
     for y in context.args:
@@ -58,8 +60,7 @@ def remove(update, context):
 def clear(update, context):
 
     chat_id = update.message.chat_id 
-    if chat_id not in shopping_lists:
-        shopping_lists[chat_id]=[]
+    new_user(chat_id)
 
     shopping_lists[chat_id].clear()
     update.message.reply_text("La lista è stata svuotata\n")
@@ -67,8 +68,7 @@ def clear(update, context):
 def show(update, context):
 
     chat_id = update.message.chat_id 
-    if chat_id not in shopping_lists:
-        shopping_lists[chat_id]=[]
+    new_user(chat_id)
 
     if shopping_lists[chat_id] == []:
         update.message.reply_text("La lista è vuota\n")
