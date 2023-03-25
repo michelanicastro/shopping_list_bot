@@ -2,7 +2,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 from telegram.update import Update
 
 #taking the token
-token = '5770176466:AAE1tWjP_168BcXJz9QmnAJidX5vcUe7eEg' #open("token.txt").readline()
+token = 'example'
 updater = Updater(token, use_context=True)
 
 shopping_lists = {}
